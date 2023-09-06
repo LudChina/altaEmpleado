@@ -1,0 +1,37 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.form_container{
+    margin: 100px;
+    padding: 20px;
+    background-color: #0B8DE6;
+}
+
+h1{
+    color: #fff;
+    margin-left: 30px;
+}
+
+form{
+    display: grid;
+    place-items: center;
+}
+
+input, select{
+    width: 200px;
+    height: 25px;
+    border-radius: 10px;
+    margin: 5px;
+    padding: 5px;
+}
+
+.button_guardar{
+    margin: 10px;;
+    background-color: #73b92f;
+    color: #fff;
+    padding: 10px;
+    border-radius: 20%;
+}
