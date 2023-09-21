@@ -5,32 +5,44 @@ function AltaEmpleado() {
 
   const [nombre, setNombre] = useState ('');
   const [apellido, setApellido] = useState ('');
-  const [email, setEmail] = useState ('');
+  const [domicilio, setDomicilio] = useState ('');
   const [sector, setSector] = useState ('');
   const [cargo, setCargo] = useState ('');
   const [usuario, setUsuario] = useState ('');
   const [clave, setClave] = useState ('');
+  const [mensaje, setMensaje] = useState ('');
 
 
   const sectores = ["Administracion", "Docente", "Mantenimiento"];
   const cargos = ["Jefe de Administracion", "Titular", "Suplente", "Encargado"];
 
-  const handleSubmit = (event) => {
-    // CONFIGUARACIÓN DE CONEXION A LA BASE MySQL
-
-    //CONEXION A BASE DE DATOS
+  const handleSubmit = async (event) => {
+    event.preventDefault(); //prevenir la recarga de la página
     
-
+   
     //NUEVO EMPLEADO
     const empleado = {
       nombre,
       apellido,
-      email,
+      domicilio,
       sector,
       cargo,
       usuario,
       clave
     };
+
+    try {
+      const response = await fetch('http://www.aulait.com.ar:3000/personal/nuevo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(empleado),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setMensaje(data.mensaje);
 
 
     //IMPRIMIR DATOS EN LA CONSOLA
@@ -40,13 +52,21 @@ function AltaEmpleado() {
      {
       setNombre('');
       setApellido('');
-      setEmail('');
+      setDomicilio('');
       setSector('');
       setCargo('');
       setUsuario('');
       setClave('');
     }
-  };
+    } else {
+      throw new Error('Error al enviar datos al servidor.');
+    }
+  } catch (error) {
+  console.error('Error al enviar la solicitud POST:', error);
+  setMensaje('Error al enviar datos al servidor.');
+  }
+   };
+     
 
   //FORMULARIO REGISTRO 
   return (
@@ -65,7 +85,7 @@ function AltaEmpleado() {
         </div>
         <div>
         <label>
-          <input placeholder='Email' type="text" value={email} onChange={(event) => setEmail(event.target.value)} />
+          <input placeholder='Domicilio' type="text" value={domicilio} onChange={(event) => setDomicilio(event.target.value)} />
         </label>
         </div>
         <div>
@@ -96,6 +116,7 @@ function AltaEmpleado() {
       </form>
     </div>
   )
-}
+
+};
 
 export default AltaEmpleado
